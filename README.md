@@ -1,36 +1,156 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Transaction Dashboard - Afripay Assessment
 
-## Getting Started
+A modern, responsive transaction management dashboard built with Next.js, TypeScript, Tailwind CSS, and Framer Motion.
 
-First, run the development server:
+## Setup Instructions
+
+### Prerequisites
+
+- Node.js 18+ installed
+- npm or pnpm package manager
+
+### Installation
+
+1. Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/codabytez/afripay-transaction-dashboard.git
+cd afripay-transaction-dashboard
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Install dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Run the development server:
 
-## Learn More
+```bash
+pnpm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+1. Open your browser and navigate to:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+http://localhost:3000
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📦 Dependencies
 
-## Deploy on Vercel
+- **Next.js** - React framework with App Router
+- **React** - UI library
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Utility-first CSS framework
+- **Framer Motion** - Animation library
+- **Lucide React** - Icon library
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🏗️ Component Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```JavaScript
+app/
+├── page.tsx (Main TransactionDashboard component)
+├── layout.tsx
+└── globals.css
+
+TransactionDashboard (Main Component)
+├── Header Section
+├── Summary Cards (3 statistics cards)
+│   ├── Total Inflow Card
+│   ├── Total Outflow Card
+│   └── Net Balance Card
+├── Actions Bar
+│   ├── Filter Buttons (All/Credit/Debit)
+│   ├── Export Dropdown (CSV/Excel)
+│   └── Add Transaction Button
+├── Transaction Table
+│   └── Animated Transaction Rows
+└── Add Transaction Modal
+    └── Transaction Form
+```
+
+## Key Design Decisions
+
+### 1. **Data Persistence with LocalStorage**
+
+- Chose localStorage for client-side persistence without backend dependency
+- Data survives page refreshes and browser sessions
+- Initialized with sample transactions for better first-time UX
+
+### 2. **State Management**
+
+- Used React hooks (useState, useEffect, useMemo) for simplicity
+- Memoized filtered transactions and summary calculations to optimize performance
+- Separated form state from main transaction state for better organization
+
+### 3. **TypeScript Implementation**
+
+- Defined clear interfaces for Transaction and FilterType
+- Ensured type safety throughout the application
+- Better IDE support and error catching during development
+
+### 4. **Styling Approach**
+
+- Tailwind CSS for rapid development and consistency
+- Custom gradient background for modern aesthetic
+- Responsive design with mobile-first approach
+- Color-coded transactions (green for credit, red for debit)
+
+### 5. **Animation & UX**
+
+- Framer Motion for smooth transitions and micro-interactions
+- Staggered animations for list items
+- Modal transitions for polished feel
+- Hover states for better interactivity
+
+### 6. **Export Functionality**
+
+- Implemented both CSV and Excel export formats
+- Exports respect current filter state
+- Uses Blob API for client-side file generation
+- Automatic filename with current date
+
+### 7. **Component Organization**
+
+- Single-file component for simplicity (suitable for assessment scope)
+- Could be split into smaller components for larger applications
+- Clear separation of concerns (utilities, types, main component)
+
+## Features Implemented
+
+### Core Requirements
+
+- ✅ Display transaction list with all required fields
+- ✅ Add new transactions via modal form
+- ✅ Filter by type (All/Credit/Debit)
+- ✅ Summary statistics (inflow, outflow, balance)
+- ✅ LocalStorage persistence
+- ✅ Export to CSV and Excel
+
+### Additional Features
+
+- Animated transitions for better UX
+- Responsive design (desktop + mobile)
+- Form validation
+- Empty state handling
+- Accessible UI components
+- Modern, professional design
+
+## Production Build
+
+To create a production build:
+
+```bash
+npm run build
+npm start
+```
+
+## Development Notes
+
+- Code follows React best practices
+- Functional components with hooks
+- Clean, readable code structure
+- Consistent formatting and naming conventions
+- Comments where needed for clarity
+
+---
