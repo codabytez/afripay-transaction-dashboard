@@ -91,7 +91,7 @@ const TransactionDashboard: NextPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -102,7 +102,7 @@ const TransactionDashboard: NextPage = () => {
             Transaction Dashboard
           </h1>
           <p className="text-slate-600">
-            Manage and track your financial transactions
+            Monitor and manage your financial transactions with ease.
           </p>
         </motion.div>
 
