@@ -7,26 +7,29 @@ import SummaryCards from "./summary-cards";
 import ActionBar from "./action-bar";
 import TransactionList from "./transaction-list";
 import AddTransaction from "./add-transaction";
-import { NextPage } from "next";
+import type { NextPage } from "next";
 
 const TransactionDashboard: NextPage = () => {
+  // ✅ Lazy initialization that only runs in the browser
   const [transactions, setTransactions] = useState<Transaction[]>(() => {
+    if (typeof window === "undefined") return []; // SSR safe
+
     try {
       const stored = localStorage.getItem("transactions");
-      if (stored) {
-        return JSON.parse(stored) as Transaction[];
-      }
-    } catch (e) {
-      throw e;
+      if (stored) return JSON.parse(stored) as Transaction[];
+
+      localStorage.setItem("transactions", JSON.stringify(transactionData));
+      return transactionData;
+    } catch (error) {
+      console.error("Failed to load transactions:", error);
+      return transactionData;
     }
-    localStorage.setItem("transactions", JSON.stringify(transactionData));
-    return transactionData;
   });
+
   const [filter, setFilter] = useState<FilterType>("all");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showExportMenu, setShowExportMenu] = useState(false);
 
-  // Form state
   const [formData, setFormData] = useState({
     description: "",
     amount: "",
@@ -34,20 +37,20 @@ const TransactionDashboard: NextPage = () => {
     date: new Date().toISOString().split("T")[0],
   });
 
-  // Save to localStorage whenever transactions change
+  // ✅ Persist to localStorage when transactions change
   useEffect(() => {
-    if (transactions.length > 0) {
+    if (typeof window !== "undefined" && transactions.length > 0) {
       localStorage.setItem("transactions", JSON.stringify(transactions));
     }
   }, [transactions]);
 
-  // Filtered transactions
+  // Filter transactions
   const filteredTransactions = useMemo(() => {
     if (filter === "all") return transactions;
     return transactions.filter((t) => t.type === filter);
   }, [transactions, filter]);
 
-  // Summary calculations
+  // Compute summary
   const summary = useMemo(() => {
     const inflow = transactions
       .filter((t) => t.type === "credit")
@@ -57,11 +60,7 @@ const TransactionDashboard: NextPage = () => {
       .filter((t) => t.type === "debit")
       .reduce((sum, t) => sum + t.amount, 0);
 
-    return {
-      inflow,
-      outflow,
-      balance: inflow - outflow,
-    };
+    return { inflow, outflow, balance: inflow - outflow };
   }, [transactions]);
 
   const handleAddTransaction = () => {
@@ -75,7 +74,7 @@ const TransactionDashboard: NextPage = () => {
       date: formData.date,
     };
 
-    setTransactions([newTransaction, ...transactions]);
+    setTransactions((prev) => [newTransaction, ...prev]);
     setFormData({
       description: "",
       amount: "",
@@ -86,18 +85,14 @@ const TransactionDashboard: NextPage = () => {
   };
 
   const handleExport = (format: "csv" | "excel") => {
-    if (format === "csv") {
-      exportToCSV(filteredTransactions);
-    } else {
-      exportToExcel(filteredTransactions);
-    }
+    if (format === "csv") exportToCSV(filteredTransactions);
+    else exportToExcel(filteredTransactions);
     setShowExportMenu(false);
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -111,10 +106,8 @@ const TransactionDashboard: NextPage = () => {
           </p>
         </motion.div>
 
-        {/* Summary Cards */}
         <SummaryCards summary={summary} />
 
-        {/* Actions Bar */}
         <ActionBar
           filter={filter}
           setFilter={setFilter}
@@ -124,10 +117,8 @@ const TransactionDashboard: NextPage = () => {
           setIsModalOpen={setIsModalOpen}
         />
 
-        {/* Transactions List */}
         <TransactionList filteredTransactions={filteredTransactions} />
 
-        {/* Add Transaction Modal */}
         <AddTransaction
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}

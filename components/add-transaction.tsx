@@ -55,7 +55,7 @@ const AddTransaction: NextPage<AddTransactionProps> = ({
                         description: e.target.value,
                       })
                     }
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
                     placeholder="Enter description"
                   />
                 </div>
@@ -72,7 +72,7 @@ const AddTransaction: NextPage<AddTransactionProps> = ({
                     onChange={(e) =>
                       setFormData({ ...formData, amount: e.target.value })
                     }
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
                     placeholder="0.00"
                   />
                 </div>
@@ -89,7 +89,7 @@ const AddTransaction: NextPage<AddTransactionProps> = ({
                         type: e.target.value as "credit" | "debit",
                       })
                     }
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
                   >
                     <option value="credit">Credit</option>
                     <option value="debit">Debit</option>
@@ -106,7 +106,7 @@ const AddTransaction: NextPage<AddTransactionProps> = ({
                     onChange={(e) =>
                       setFormData({ ...formData, date: e.target.value })
                     }
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
                   />
                 </div>
               </div>
